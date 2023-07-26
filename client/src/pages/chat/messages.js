@@ -1,8 +1,10 @@
 import styles from './styles.module.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Messages = ({ socket }) => {
     const [messagesRecieved, setMessagesRecieved] = useState([]);
+
+    const messagesColumnRef = useRef(null);
 
     // Whenever a socket event is fired on the server
     useEffect(() => {
@@ -27,9 +29,36 @@ const Messages = ({ socket }) => {
         return date.toLocaleString();
     }
 
+    // Grab the pass 100 messages and sort them by date
+    useEffect(() => {
+        socket.on('last_100_messages', (last100Messages) => {
+            console.log('last 100: ', JSON.parse(last100Messages));
+            last100Messages = JSON.parse(last100Messages);
+            
+            // Sort the messages by time created
+            last100Messages = sortMessagesByDate(last100Messages);
+            setMessagesRecieved((state)  => [...last100Messages, ...state])
+        });
+
+        return () => socket.off('last100Messages');
+    }, [socket]);
+
+    // Scroll to the newst message
+    useEffect(() => {
+        messagesColumnRef.current.scrollTop =
+        messagesColumnRef.current.scrollHeight;
+    }, [messagesRecieved]);
+
+    // Sort by date function
+    function sortMessagesByDate(messages) {
+        return messages.sort(
+            (a, b) => parseInt(a.__createdTime__) - (b.__createdTime__)
+        );
+    }
+
     // Output the actual component
     return (
-        <div className={styles.messageColumn}>
+        <div className={styles.messageColumn} ref={messagesColumnRef}>
             {messagesRecieved.map((msg, i) => (
                 <div className={styles.message} key={i}>
                     <div className={styles.msgMetaContainer}>
