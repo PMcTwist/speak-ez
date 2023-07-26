@@ -11,8 +11,9 @@ const cors = require('cors');
 // Grab Server from socket.io
 const { Server } = require('socket.io');
 
-// Setup database save message
+// Setup database connectors
 const harperSaveMessage = require('./services/harper-save-message');
+const harperGetMessages = require('./services/harper-get-messages');
 
 // Enable outside access to front end
 app.use(cors());
@@ -76,6 +77,13 @@ io.on('connection', (socket => {
                 .then((res) => console.log(res))
                 .catch((err) => console.log(err))
         })
+
+        harperGetMessages(room)
+            .then((last100Messages) => {
+                console.log('Latest Messages: ', last100Messages);
+                socket.emit('last_100_messages', last100Messages);
+            })
+            .catch((err) => console.log(err));
     });
 }))
 
