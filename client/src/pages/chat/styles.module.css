@@ -60,8 +60,6 @@
 /* Input and Send Button */
 .sendMessageContainer {
     padding: 16px 40px 40px 16px;
-    display: flex;
-    flex-direction: row;
 }
 
 .messageInput {

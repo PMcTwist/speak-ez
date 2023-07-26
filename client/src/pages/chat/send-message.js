@@ -20,7 +20,7 @@ const SendMessage = ({ socket, username, room  }) => {
     };
 
     return (
-        <div>
+        <div className={styles.sendMessageContainer}>
             <input 
                 className={styles.messageInput}
                 placeholder='Message...'
