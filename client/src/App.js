@@ -2,7 +2,10 @@ import './App.css';
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import io from 'socket.io-client';
-import Home from './pages/home/index';
+
+// Import the pages to use
+import Home from './pages/home';
+import Chat from './pages/chat';
 
 const socket = io.connect('http://localhost:4000');
 
@@ -15,7 +18,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route 
+          <Route // Home page route
             path='/' 
             element={
               <Home
@@ -26,6 +29,16 @@ function App() {
                 socket={socket}
               />
             } 
+          />
+        
+          <Route // Chat room route
+            path='/chat'
+            element={
+              <Chat 
+                username={username} 
+                room={room} 
+                socket={socket} 
+              />}
           />
         </Routes>
       </div>
