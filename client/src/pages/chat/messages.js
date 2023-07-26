@@ -9,7 +9,6 @@ const Messages = ({ socket }) => {
     // Whenever a socket event is fired on the server
     useEffect(() => {
         socket.on('get_message', (data) => {
-            console.log(data);
             setMessagesRecieved((state) => [
                 ...state,
                 {
@@ -32,7 +31,6 @@ const Messages = ({ socket }) => {
     // Grab the pass 100 messages and sort them by date
     useEffect(() => {
         socket.on('last_100_messages', (last100Messages) => {
-            console.log('last 100: ', JSON.parse(last100Messages));
             last100Messages = JSON.parse(last100Messages);
             
             // Sort the messages by time created
@@ -40,7 +38,7 @@ const Messages = ({ socket }) => {
             setMessagesRecieved((state)  => [...last100Messages, ...state])
         });
 
-        return () => socket.off('last100Messages');
+        return () => socket.off('last_100_messages');
     }, [socket]);
 
     // Scroll to the newst message
