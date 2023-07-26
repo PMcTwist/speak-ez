@@ -3,7 +3,7 @@ let axios = require('axios');
 function harperGetMessages(room) {
     const dbUrl = process.env.HARPERDB_URL;
     const dbPw = process.env.HARPERDB_PW;
-    if(!dbUrl || !dbPw) return null;
+    if (!dbUrl || !dbPw) return null;
 
 
     // Setup the DB query and get a JSON object back
@@ -21,6 +21,7 @@ function harperGetMessages(room) {
         },
         data: data,
     };
+    console.log(config.data)
 
     return new Promise((resolve, reject) => {
         axios(config)
