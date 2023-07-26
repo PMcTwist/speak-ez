@@ -38,10 +38,13 @@
 .messageColumn {
     height: 85vh;
     overflow: auto;
-    padding: 10px 10px 10px 40px;
+    padding: 10px 20px 20px 40px;
 }
 
 .message {
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 6px;
+    padding: 10px 20px 10px 20px;
     background: rgb(0, 0, 0);
 }
 
@@ -51,7 +54,7 @@
 }
 
 .msgMeta {
-    color: rgb(153, 217, 234);
+    color: rgb(255, 255, 255);
     font-size: 0.75rem;
 }
 
@@ -61,7 +64,7 @@
 
 /* Input and Send Button */
 .sendMessageContainer {
-    padding: 16px 20px 20px 16px;
+    padding: 16px 40px 40px 16px;
 }
 
 .messageInput {
