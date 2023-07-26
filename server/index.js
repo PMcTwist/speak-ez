@@ -1,3 +1,6 @@
+// Setup dotenv and pass in secrects
+require('dotenv').config();
+
 // setup server to use express
 const express = require('express');
 const app = express();
@@ -7,6 +10,9 @@ const cors = require('cors');
 
 // Grab Server from socket.io
 const { Server } = require('socket.io');
+
+// Setup database save message
+const harperSaveMessage = require('./services/harper-save-message');
 
 // Enable outside access to front end
 app.use(cors());
@@ -61,6 +67,15 @@ io.on('connection', (socket => {
         //Send signals to update the users in the room list
         socket.to(room).emit('chatroom_users', chatRoomUsers);
         socket.emit('chatroom_users', chatRoomUsers);
+
+        // Setup the socket for sending a message
+        socket.on('send_message', (data) => {
+            const { message, username, __createdTime__ } = data;
+            io.in(room).emit('get_message', data);
+            harperSaveMessage(message, username, room, __createdTime__)
+                .then((res) => console.log(res))
+                .catch((err) => console.log(err))
+        })
     });
 }))
 
