@@ -32,8 +32,7 @@ const Home = ({ username, setUsername, room, setRoom, socket }) => {
                 </select>
 
                 <button 
-                    className='btn btn-secondary' 
-                    id={styles.joinBtn}
+                    className={`btn btn-secondary ${styles.joinBtn}`} 
                     onClick={joinRoom}
                 >
                     Join Room
