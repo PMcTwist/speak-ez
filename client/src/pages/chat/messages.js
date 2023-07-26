@@ -6,7 +6,7 @@ const Messages = ({ socket }) => {
 
     // Whenever a socket event is fired on the server
     useEffect(() => {
-        socket.on('receive_message', (data) => {
+        socket.on('get_message', (data) => {
             console.log(data);
             setMessagesRecieved((state) => [
                 ...state,
@@ -19,11 +19,11 @@ const Messages = ({ socket }) => {
         })
 
         // Remove Listener
-        return () => socket.off('reveive_message');
+        return () => socket.off('get_message');
     }, [socket]);
 
     function formatDataFromTimestamp(timestamp) {
-        const date = new Date(timesstamp);
+        const date = new Date(timestamp);
         return date.toLocaleString();
     }
 
