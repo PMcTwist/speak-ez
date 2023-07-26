@@ -40,13 +40,13 @@ io.on('connection', (socket => {
 
         let __createdTime__ = Date.now(); // Grab the time
         // Send message to all users when new user joins the room
-        socket.to(room).emit('receive_message', {
+        socket.to(room).emit('get_message', {
             message: `${username} has join the room`,
             username: CHAT_BOT,
             __createdTime__,
         })
 
-        socket.emit('recieve_message', {
+        socket.emit('get_message', {
             message: `Welcome ${username}`,
             username: CHAT_BOT,
             __createdTime__,
