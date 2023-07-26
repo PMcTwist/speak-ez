@@ -45,6 +45,11 @@
     background: rgb(0, 0, 0);
 }
 
+.msgMetaContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
 .msgMeta {
     color: rgb(153, 217, 234);
     font-size: 0.75rem;
