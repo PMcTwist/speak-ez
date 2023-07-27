@@ -60,8 +60,14 @@ const Messages = ({ socket }) => {
             {messagesRecieved.map((msg, i) => (
                 <div className={styles.message} key={i}>
                     <div className={styles.msgMetaContainer}>
-                        <span className={styles.msgMeta}>{msg.username}</span>
-                        <span className={styles.msgMeta}>
+                        <span 
+                            className={`${styles.msgMeta} ${styles.msgUsername}`}
+                        >
+                            {msg.username}
+                        </span>
+                        <span 
+                            className={styles.msgMeta}
+                        >
                             {formatDataFromTimestamp(msg.__createdTime__)}
                         </span>
                     </div>
