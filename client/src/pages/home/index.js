@@ -1,8 +1,23 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css'
 
 const Home = ({ username, setUsername, room, setRoom, socket }) => {
+    const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        socket.on('get_rooms', (data) => {
+            setRooms((state) => [
+                ...state,
+                [],
+            ])
+        })
+
+        
+        // Remove Listener
+        return () => socket.off('get_rooms');
+    }, [socket]);
 
     const joinRoom = () => {
         if (room !== '' && username !== '') {
@@ -27,8 +42,12 @@ const Home = ({ username, setUsername, room, setRoom, socket }) => {
                     onChange={(e)=> setRoom(e.target.value)}
                 >
                     <option>-- Get a Room --</option>
-                    <option value='1'>Room 1</option>
-                    <option value='2'>Room 2</option>
+                    <option value='Froths Den'>Froths Den</option>
+                    <option value='The Crapper'>The Crapper</option>
+                    {rooms.map((room) => {
+                        <option value={room}>{room}</option>
+                    })}
+
                 </select>
 
                 <button 
