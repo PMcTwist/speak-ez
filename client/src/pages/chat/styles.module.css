@@ -1,6 +1,6 @@
 .chatContainer {
     max-width: 1100px;
-    margin: 0 auto;
+    margin: 10px 10px auto;
     display: grid;
     grid-template-columns: 1fr 4fr;
     gap: 20px;
