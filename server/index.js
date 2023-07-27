@@ -15,6 +15,9 @@ const { Server } = require('socket.io');
 const harperSaveMessage = require('./services/harper-save-message');
 const harperGetMessages = require('./services/harper-get-messages');
 
+// Setup utility calls
+const leaveRoom = require('./utils/leave-room');
+
 // Enable outside access to front end
 app.use(cors());
 
@@ -83,6 +86,35 @@ io.on('connection', (socket => {
                 socket.emit('last_100_messages', last100Messages);
             })
             .catch((err) => console.log(err));
+
+        socket.on('disconnect', () => {
+            console.log('User dropped off')
+            const user = allUsers.find((user) => user.id == socket.id)
+            if (user?.username) {
+                allUsers = leaveRoom(socket.id, allUsers)
+                socket.to(chatRoom).emit('chatroom_users', allUsers);
+                socket.to(chatRoom).emit('get_message', {
+                    message: `${user.username} has left the building...`
+                })
+            }
+        })
+    });
+
+    // leave room socket call
+    socket.on('leave_room', (data) => {
+        const { username, room } = data;
+        socket.leave(room);
+        const __createdTime__ = Date.now();
+
+        // Remove the user from the server memory 
+        allUsers = leaveRoom(socket.id, allUsers);
+        socket.to(room).emit('chatroom_users', allUsers);
+        console.log(allUsers)
+        socket.to(room).emit('get_message', {
+            username: CHAT_BOT,
+            message: `${username} has left the room`,
+            __createdTime__,
+        })
     });
 }))
 
